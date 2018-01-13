@@ -20,13 +20,11 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <!--TODO (3) Remove the default text-->
+    
     <!--TODO (4) Give the TextView 16dp of padding-->
     <!--TODO (5) Set the text size to 20sp-->
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_height="wrap_content" />
 
 </FrameLayout>
