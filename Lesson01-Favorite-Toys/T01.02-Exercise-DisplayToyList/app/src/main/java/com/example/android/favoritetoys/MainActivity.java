@@ -27,11 +27,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         mToysListTextView = (TextView)findViewById(R.id.tv_toy_names);
-
-        // TODO (4) Use the static ToyBox.getToyNames method and store the names in a String array
-
+        String[] toyNames = ToyBox.getToyNames();
+        
         // TODO (5) Loop through each toy and append the name to the TextView (add \n for spacing)
     }
 }
