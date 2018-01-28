@@ -24,12 +24,13 @@ import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.widget.Toast;
 
-// TODO (1) Implement OnPreferenceChangeListener
+
 public class SettingsFragment extends PreferenceFragmentCompat implements
-        OnSharedPreferenceChangeListener {
+        OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
@@ -51,7 +52,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 setPreferenceSummary(p, value);
             }
         }
-        // TODO (3) Add the OnPreferenceChangeListener specifically to the EditTextPreference
+
+        Preference sizePreference = findPreference(getString(R.string.pref_size_key));
+        sizePreference.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -88,11 +91,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         }
     }
 
-    // TODO (2) Override onPreferenceChange. This method should try to convert the new preference value
-    // to a float; if it cannot, show a helpful error message and return false. If it can be converted
-    // to a float check that that float is between 0 (exclusive) and 3 (inclusive). If it isn't, show
-    // an error message and return false. If it is a valid number, return true.
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,5 +103,41 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         super.onDestroy();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    /**
+     * Try to convert the new preference value to a float; if cannot, show a helpful error
+     * message and return false. If it can be converted to a float check that that float is
+     * between 0 (exclusive) and 3 (inclusive). If it isn't, show an error message and return false.
+     * If it is a valid number, return true.
+     *
+     * @param preference Preference being set
+     * @param newValue Value to set
+     * @return Whether to set value or not (true if newValue is valid)
+     */
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+
+        if (!preference.getKey().equals(getString(R.string.pref_size_key))) {
+            return true;
+        }
+
+        try {
+            String stringVal = newValue != null ? ((String) newValue).trim() : getString(R.string.pref_size_default);
+            float val = Float.parseFloat(stringVal);
+            if (val > 0 && val <= 3) {
+                return true;
+            } else {
+                Toast.makeText(getContext(),
+                        getString(R.string.pref_size_out_of_range),
+                        Toast.LENGTH_LONG).show();
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(getContext(),
+                    getString(R.string.pref_size_not_a_number),
+                    Toast.LENGTH_LONG).show();
+        }
+
+        return false;
     }
 }
