@@ -36,6 +36,10 @@
     <!-- Default for size preference -->
     <string name="pref_size_default" translatable="false">1</string>
 
+    <!-- Size preference error messages -->
+    <string name="pref_size_not_a_number">Size must be a number.</string>
+    <string name="pref_size_out_of_range">Size must be greater than zero and no bigger than three.</string>
+
 
     <!-- Label for the color preference -->
     <string name="pref_color_label">Shape Color</string>
